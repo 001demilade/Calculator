@@ -1,32 +1,44 @@
+// Importing useState from React to manage state variables
 import { useState } from "react";
-import "./Calculator.css";
+import "./Calculator.css"; // Importing CSS file for styling
 
 function Calculator() {
+    // State to store the current displayed value, memory value, and the selected operator
     const [value, setValue] = useState("0");
+
+    // State to store the previous number entered (for calculations)
     const [memory, setMemory] = useState(null);
+
+    // State to store the selected operator (+, -, *, /)
     const [operator, setOperator] = useState(null);
 
+     // Function that handles number button clicks (0–9)
     const handleNumber = (num) => {
+        // If value is "0", replace it with the new number; otherwise, append it
         setValue(value === "0" ? String(num) : value + num);
     };
 
+    // Function to clear everything (reset calculator)
     const handleClear = () => {
-        setValue("0");
-        setMemory(null);
-        setOperator(null);
+        setValue("0");  // Reset display
+        setMemory(null);    // Clear stored number
+        setOperator(null);   // Clear operator
     };
 
+    // Function that handles operator button clicks (+, -, *, /)
     const handleOperator = (op) => {
-        setOperator(op);
-        setMemory(parseFloat(value));
-        setValue("0");
+        setOperator(op);    // Store operator
+        setMemory(parseFloat(value));   // Store current display value as memory
+        setValue("0");  // Reset display for next number input
     };
 
+    // Function to handle when user presses "="
     const handleEqual = () => {
         if (operator && memory !== null) {
-            const currentValue = parseFloat(value);
+            const currentValue = parseFloat(value); // Convert current display value to number
             let result = 0;
 
+            // Perform calculation based on operator
             switch (operator) {
                 case "+":
                     result = memory + currentValue;
@@ -44,14 +56,18 @@ function Calculator() {
                     return;
             }
             
+            // Update display with result
             setValue(String(result));
+            // Reset operator and memory
             setOperator(null);
             setMemory(null);
         }    
 };
+    // Function to handle decimal point input
     const handleDecimal = () => {
         if (!value.includes(".")) setValue(value + ".");
     };
+    // Function to toggle between positive and negative number
     const handleToggle = () => {
         setValue(String(parseFloat(value) * -1));
     };
